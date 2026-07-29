@@ -1,0 +1,450 @@
+<title>An Atlas of Meaning</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+  --bg:#efece3; --surface:#f7f5ef; --raise:#fbfaf5;
+  --ink:#1b1d27; --ink-soft:#565863; --muted:#8d8e96;
+  --line:#e0dbce; --line-2:#d3ccba;
+  --accent:#a06d12; --accent-ink:#7d5407; --accent-fill:#b8892a;
+  --s-ai:#2e7cb8; --s-mort:#c24a2e; --s-nih:#8a55b0;
+  --band:#efe7d4;
+  --shadow:0 1px 2px rgba(30,25,10,.05), 0 8px 30px rgba(30,25,10,.06);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#111219; --surface:#181a24; --raise:#1e202b;
+    --ink:#e9e7de; --ink-soft:#aaabb4; --muted:#71737d;
+    --line:#262835; --line-2:#333649;
+    --accent:#e0a836; --accent-ink:#eebb52; --accent-fill:#d99f2f;
+    --s-ai:#5aa0e0; --s-mort:#e86a45; --s-nih:#b884da;
+    --band:#1d1f2b;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 34px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="light"]{
+  --bg:#efece3; --surface:#f7f5ef; --raise:#fbfaf5;
+  --ink:#1b1d27; --ink-soft:#565863; --muted:#8d8e96;
+  --line:#e0dbce; --line-2:#d3ccba;
+  --accent:#a06d12; --accent-ink:#7d5407; --accent-fill:#b8892a;
+  --s-ai:#2e7cb8; --s-mort:#c24a2e; --s-nih:#8a55b0; --band:#efe7d4;
+  --shadow:0 1px 2px rgba(30,25,10,.05), 0 8px 30px rgba(30,25,10,.06);
+}
+:root[data-theme="dark"]{
+  --bg:#111219; --surface:#181a24; --raise:#1e202b;
+  --ink:#e9e7de; --ink-soft:#aaabb4; --muted:#71737d;
+  --line:#262835; --line-2:#333649;
+  --accent:#e0a836; --accent-ink:#eebb52; --accent-fill:#d99f2f;
+  --s-ai:#5aa0e0; --s-mort:#e86a45; --s-nih:#b884da; --band:#1d1f2b;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 34px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+  line-height:1.6;-webkit-font-smoothing:antialiased;font-size:16px}
+.wrap{max-width:940px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;font-weight:600;
+  text-wrap:balance;letter-spacing:-.01em;line-height:1.15}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11.5px;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--accent-ink)}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+a{color:var(--accent-ink)}
+
+/* masthead */
+header{border-bottom:1px solid var(--line);padding:64px 0 40px;margin-bottom:8px;
+  background:linear-gradient(180deg,var(--band),transparent)}
+header .rule{width:44px;height:2px;background:var(--accent-fill);margin:0 0 22px}
+h1{font-size:clamp(38px,7vw,68px);margin:.1em 0 .3em}
+.lede{font-size:clamp(18px,2.4vw,21px);color:var(--ink-soft);max-width:60ch;margin:0}
+.stat-row{display:flex;flex-wrap:wrap;gap:28px 40px;margin-top:34px}
+.stat .n{font-family:Georgia,serif;font-size:30px;font-variant-numeric:tabular-nums;line-height:1}
+.stat .l{font-size:12.5px;color:var(--muted);letter-spacing:.02em;margin-top:5px}
+
+section{padding:52px 0;border-bottom:1px solid var(--line)}
+.sec-head{max-width:64ch;margin-bottom:30px}
+.sec-head h2{font-size:clamp(25px,4vw,34px);margin:.35em 0 .35em}
+.sec-head p{color:var(--ink-soft);margin:0;font-size:16.5px}
+
+/* map */
+.map-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:34px;align-items:start}
+@media(max-width:720px){.map-grid{grid-template-columns:1fr}}
+.rows{display:flex;flex-direction:column;gap:2px}
+.crow{display:grid;grid-template-columns:74px 1fr 46px;align-items:center;gap:12px;
+  width:100%;text-align:left;background:none;border:0;cursor:pointer;color:inherit;
+  padding:8px 10px;border-radius:8px;font:inherit;transition:background .12s}
+.crow:hover{background:var(--band)}
+.crow[aria-selected="true"]{background:var(--band)}
+.crow .name{font-size:14.5px;font-weight:500}
+.crow .sub{font-size:11px;color:var(--muted)}
+.track{height:22px;background:var(--line);border-radius:5px;overflow:hidden;position:relative}
+.fill{height:100%;background:var(--accent-fill);border-radius:5px 4px 4px 5px;
+  transition:width .5s cubic-bezier(.3,.8,.3,1)}
+.crow .pct{font-family:ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums;
+  font-size:14px;text-align:right;color:var(--ink-soft)}
+.crow:focus-visible{outline:2px solid var(--accent-ink);outline-offset:1px}
+
+/* detail panel */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:24px;box-shadow:var(--shadow);position:sticky;top:18px}
+.panel .flag{font-size:34px;font-family:Georgia,serif;line-height:1}
+.panel h3{font-size:22px;margin:8px 0 2px}
+.panel .meta{font-size:12.5px;color:var(--muted);margin-bottom:18px}
+.src{margin:11px 0}
+.src .top{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px}
+.src .top b{font-weight:500}
+.src .top .v{font-family:ui-monospace,Menlo,monospace;color:var(--ink-soft)}
+.sbar{height:7px;background:var(--line);border-radius:4px;overflow:hidden}
+.sbar > i{display:block;height:100%;background:var(--accent-fill);border-radius:4px}
+.sbar.rel > i{background:var(--accent-fill)}
+.sbar.oth > i{background:var(--ink-soft);opacity:.55}
+.quote{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);
+  font-family:Georgia,serif;font-style:italic;font-size:15px;color:var(--ink-soft)}
+
+/* control callout */
+.control{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:520px;margin:8px 0 20px}
+.ct{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+.ct .big{font-family:Georgia,serif;font-size:46px;line-height:1;font-variant-numeric:tabular-nums}
+.ct.k .big{color:var(--accent-ink)} .ct.j .big{color:var(--s-ai)}
+.ct .who{font-size:13.5px;font-weight:600;margin-top:6px}
+.ct .who span{color:var(--muted);font-weight:400}
+.punch{font-family:Georgia,serif;font-size:clamp(18px,2.4vw,22px);max-width:56ch;color:var(--ink)}
+.punch b{color:var(--accent-ink);font-weight:600}
+
+/* temporal chart */
+.chart-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:20px 20px 8px;box-shadow:var(--shadow)}
+.legend{display:flex;gap:20px;flex-wrap:wrap;margin:2px 4px 10px}
+.lg{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--ink-soft)}
+.lg .sw{width:22px;height:3px;border-radius:2px}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.gridline{stroke:var(--line);stroke-width:1}
+.axis{fill:var(--muted);font-size:11px;font-family:ui-monospace,Menlo,monospace}
+.dlabel{font-family:ui-monospace,Menlo,monospace;font-size:12px;font-weight:600}
+.anno{stroke:var(--line-2);stroke-width:1;stroke-dasharray:3 3}
+.anno-t{fill:var(--muted);font-size:10.5px;font-family:ui-monospace,Menlo,monospace;letter-spacing:.04em}
+.hv-line{stroke:var(--ink-soft);stroke-width:1;opacity:.5}
+.tip{position:absolute;pointer-events:none;background:var(--raise);border:1px solid var(--line-2);
+  border-radius:9px;padding:9px 11px;font-size:12.5px;box-shadow:var(--shadow);opacity:0;
+  transition:opacity .1s;min-width:120px;z-index:5}
+.tip .yr{font-family:Georgia,serif;font-size:14px;margin-bottom:5px}
+.tip .r{display:flex;justify-content:space-between;gap:14px;font-family:ui-monospace,Menlo,monospace}
+
+/* footer / frame */
+.frame{color:var(--ink-soft);font-size:15px;max-width:66ch}
+.frame h2{color:var(--ink)}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+.tag{font-size:12px;font-family:ui-monospace,Menlo,monospace;background:var(--band);
+  border:1px solid var(--line);border-radius:100px;padding:4px 12px;color:var(--ink-soft)}
+.foot{padding:34px 0 70px;color:var(--muted);font-size:12.5px}
+.note{font-size:13px;color:var(--muted);margin-top:14px}
+button.crow{font-family:system-ui,sans-serif}
+
+/* register flip */
+.seg{display:inline-flex;background:var(--band);border:1px solid var(--line);border-radius:12px;
+  padding:4px;gap:3px;margin-bottom:4px;flex-wrap:wrap}
+.seg button{font-family:system-ui,sans-serif;font-size:13.5px;border:0;background:none;
+  color:var(--ink-soft);padding:9px 16px;border-radius:9px;cursor:pointer;line-height:1.2;text-align:left}
+.seg button .sm{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.seg button[aria-pressed="true"] .sm{color:var(--accent-ink)}
+.seg button:focus-visible{outline:2px solid var(--accent-ink);outline-offset:1px}
+.rcap{font-family:Georgia,serif;font-style:italic;font-size:17px;color:var(--ink-soft);
+  margin:18px 2px 22px;min-height:1.4em}
+.rbars{display:flex;flex-direction:column;gap:11px;max-width:640px}
+.rb{display:grid;grid-template-columns:150px 1fr 50px;align-items:center;gap:12px}
+.rb .rl{font-size:13.5px}
+.rb .rt{height:16px;background:var(--line);border-radius:5px;overflow:hidden}
+.rb .rt>i{display:block;height:100%;width:0;background:var(--accent-fill);border-radius:5px;
+  transition:width .6s cubic-bezier(.3,.85,.3,1),background .3s}
+.rb .rv{font-family:ui-monospace,Menlo,monospace;font-size:13px;color:var(--ink-soft);
+  text-align:right;font-variant-numeric:tabular-nums}
+.rb.hot .rt>i{background:var(--accent-ink)}
+
+/* kinds of faith */
+.pole-axis{position:relative;height:2px;background:linear-gradient(90deg,var(--s-mort),var(--line-2),var(--accent-fill));
+  margin:58px 6px 12px;border-radius:2px}
+.chip{position:absolute;top:-15px;transform:translateX(-50%);white-space:nowrap;font-size:12.5px;
+  font-family:ui-monospace,Menlo,monospace;background:var(--surface);border:1px solid var(--line);
+  border-radius:100px;padding:4px 11px;color:var(--ink)}
+.pole-ends{display:flex;justify-content:space-between;gap:16px;margin-top:14px}
+.pend{max-width:46%} .pend.r{text-align:right}
+.pend b{font-family:Georgia,serif;font-size:16px;display:block;margin-bottom:3px}
+.pend span{font-size:12.5px;color:var(--muted)}
+.faith-q{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
+.fq{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;
+  font-family:Georgia,serif;font-style:italic;font-size:14.5px;color:var(--ink-soft)}
+.fq .lbl{font-family:ui-monospace,Menlo,monospace;font-style:normal;font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--accent-ink);margin-bottom:8px}
+@media(max-width:640px){.faith-q{grid-template-columns:1fr}.rb{grid-template-columns:112px 1fr 44px}}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="rule"></div>
+  <div class="eyebrow">A field study of the unprompted</div>
+  <h1>An Atlas of Meaning</h1>
+  <p class="lede">What people say gives life meaning, gathered not from a survey but from
+  1.28&nbsp;million comments left at the moments life forces the question: a hospice bed, a
+  relapse, a lost faith, a first child. Nobody was asked. They said it anyway.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="n mono">1.28M</div><div class="l">fragments</div></div>
+    <div class="stat"><div class="n mono">17</div><div class="l">languages</div></div>
+    <div class="stat"><div class="n mono">4</div><div class="l">sources</div></div>
+    <div class="stat"><div class="n mono">~15K</div><div class="l">hand-read by a careful reader</div></div>
+  </div>
+</header>
+
+<section>
+  <div class="sec-head">
+    <div class="eyebrow">The map · religion's share of stated meaning</div>
+    <h2>Where the world locates meaning</h2>
+    <p>Of the people in each language who name what makes life meaningful, this is how many
+    reach for God or the sacred. Select a culture to see its full answer. The order was never
+    programmed in. It fell out of the data, and it tracks real-world religiosity almost exactly.</p>
+  </div>
+  <div class="map-grid">
+    <div class="rows" id="rows" role="listbox" aria-label="Cultures by religion share"></div>
+    <aside class="panel" id="panel" aria-live="polite"></aside>
+  </div>
+  <p class="note" id="korea-note"></p>
+</section>
+
+<section>
+  <div class="sec-head">
+    <div class="eyebrow">The control · same region, opposite ends</div>
+    <h2>Is it just East Asian modernity? No.</h2>
+  </div>
+  <div class="control">
+    <div class="ct k"><div class="big mono">47%</div><div class="who">South Korea <span>· religious</span></div></div>
+    <div class="ct j"><div class="big mono">11%</div><div class="who">Japan <span>· secular</span></div></div>
+  </div>
+  <p class="punch">Two neighboring, wealthy, modern democracies land nearly <b>five times</b> apart.
+  So Japan's secularity isn't an Asia thing, or a wealth thing, or a modernity thing.
+  It is specifically a <b>Japan</b> thing.</p>
+</section>
+
+<section>
+  <div class="sec-head">
+    <div class="eyebrow">Beneath the number · a category the data proposed</div>
+    <h2>The same word, different faiths</h2>
+    <p>Left to sort themselves, the fragments refuse to let "religion" stay one thing. It splits
+    by tradition, so cultures don't simply hold <em>more</em> or <em>less</em> faith. They hold
+    different <em>kinds</em>. Arabic's is a faith of submission and the life to come; the Latin
+    Catholic world's is a faith of trust and thanks. The map's single bar was hiding this.</p>
+  </div>
+  <div class="pole-axis" aria-hidden="true">
+    <span class="chip" style="left:9%">Arabic</span>
+    <span class="chip" style="left:31%">Indonesian</span>
+    <span class="chip" style="left:46%">Turkish</span>
+    <span class="chip" style="left:73%">Spanish</span>
+    <span class="chip" style="left:92%">Portuguese</span>
+  </div>
+  <div class="pole-ends">
+    <div class="pend"><b>Submit · the world is fleeting</b><span>faith as servitude and the hereafter</span></div>
+    <div class="pend r"><b>Trust Him · thank Him</b><span>faith as surrender and gratitude</span></div>
+  </div>
+  <div class="faith-q">
+    <div class="fq"><div class="lbl">Arabic · ascetic</div>“This world is fleeting. Do not forget the hereafter.”</div>
+    <div class="fq"><div class="lbl">Portuguese · trusting</div>“Have faith, don't give up. Leave it in God's hands.”</div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <div class="eyebrow">The clock · 19 years on Hacker News</div>
+    <h2>When AI entered the conversation about meaning</h2>
+    <p>The same questions, asked by a secular technical crowd, every year from 2007 to 2026:
+    the share of meaning-adjacent comments that invoke each theme. Two real-world events show up
+    without being told, the pandemic and the arrival of ChatGPT.</p>
+  </div>
+  <div class="chart-card">
+    <div class="legend">
+      <div class="lg"><span class="sw" style="background:var(--s-ai)"></span>Artificial intelligence</div>
+      <div class="lg"><span class="sw" style="background:var(--s-mort)"></span>Death &amp; mortality</div>
+      <div class="lg"><span class="sw" style="background:var(--s-nih)"></span>Nihilism &amp; the absurd</div>
+    </div>
+    <div style="position:relative">
+      <svg id="tchart" viewBox="0 0 820 400" role="img"
+        aria-label="Line chart: AI mentions flat near zero until 2022, then rising to 14% by 2026; mortality spikes in 2020-21; nihilism slowly triples."></svg>
+      <div class="tip" id="tip"></div>
+    </div>
+  </div>
+  <p class="note">Lexical first-cut on a topic-mined sample, so absolute levels aren't “HN at large.” The shapes, and the event timing, are robust.</p>
+</section>
+
+<section>
+  <div class="sec-head">
+    <div class="eyebrow">The register · same question, different room</div>
+    <h2>Change the room, change the answer</h2>
+    <p>The same question, in English, asked three ways. When saying it costs something, like a
+    comment under a hospice video, people reach for family and faith. Thinking out loud among
+    engineers, they reach for the work of their hands. In open debate, for philosophy. Pick a room
+    and watch the meaning of life rearrange itself.</p>
+  </div>
+  <div class="seg" id="seg" role="tablist" aria-label="Register"></div>
+  <div class="rcap" id="rcap"></div>
+  <div class="rbars" id="rbars"></div>
+  <p class="note">Lexical, English only. The “argued” room leans religious partly by source
+  selection (faith Q&amp;A sites were sampled), so read it lightly. The clean, unconfounded signal
+  is <b>confessed vs. reflected</b>: faith and family collapse, craft and growth rise.</p>
+</section>
+
+<section>
+  <div class="frame">
+    <div class="eyebrow">The frame</div>
+    <h2>What this is, and what it isn't</h2>
+    <p>Every survey about meaning asks people directly, which is why surveys catch performances.
+    This catches people saying it unprompted, at the moment it actually mattered, in their own
+    language. That's not a bigger survey; it's a different kind of evidence.</p>
+    <p>It is also imperfect, and honest about it. The tagging is machine-assisted and hand-validated,
+    not flawless; the crowds are self-selected; a keyword is not a soul. The reason to trust the
+    map anyway is that it keeps reproducing things it was never told: real-world religiosity,
+    the timing of a pandemic, the launch of a chatbot, all from nothing but raw, dated, anonymous text.</p>
+    <div class="tags">
+      <span class="tag">YouTube · confessed</span>
+      <span class="tag">Hacker News · reflected</span>
+      <span class="tag">Stack Exchange · argued</span>
+      <span class="tag">seam-mined, not keyword-searched</span>
+      <span class="tag">pseudonymized on ingest</span>
+    </div>
+  </div>
+</section>
+
+<div class="foot wrap" style="padding-left:0;padding-right:0">
+  Korea figure is a free first-cut (rough); all others rest on hand-validated gold labels.
+  Distributions, not individuals. Built from a corpus of 1.28M fragments across four public sources.
+</div>
+</div>
+
+<script>
+const CULTURES=[
+ {c:"ar",name:"Arabic",flag:"ع",n:260,rel:70,src:[["Religion / the sacred",70],["Becoming yourself",10],["Family & children",4],["Serving others",4]],q:"“Serving God is the whole purpose of this life.”"},
+ {c:"id",name:"Indonesian",flag:"id",n:395,rel:53,src:[["Religion / the sacred",53],["Becoming yourself",16],["Family & children",10],["Serving others",9]],q:"“God gave us this life for a reason.”"},
+ {c:"es",name:"Spanish",flag:"es",n:460,rel:49,src:[["Religion / the sacred",49],["Family & children",14],["Becoming yourself",12],["Freedom",5]],q:"“Sin Dios no soy nada.”"},
+ {c:"ko",name:"Korean",flag:"한",n:1156,rel:47,prov:true,src:[["Religion / the sacred",47],["Family & children",18],["Becoming yourself",14],["Others",21]],q:"First-cut: same threshold as Japan, ~5× the faith."},
+ {c:"pt",name:"Portuguese",flag:"pt",n:357,rel:45,src:[["Religion / the sacred",45],["Family & children",23],["Becoming yourself",8],["Romantic love",5]],q:"“Ele é a razão da minha vida.”"},
+ {c:"en",name:"English",flag:"en",n:5100,rel:44,src:[["Religion / the sacred",44],["Freedom",18],["Family & children",13],["Serving others",7]],q:"“Give your life to God, He has a plan for you.”"},
+ {c:"hi",name:"Hindi",flag:"हि",n:281,rel:41,src:[["Religion / the sacred",41],["Serving others",15],["Becoming yourself",10],["Family & children",10]],q:"“Life's one supreme goal is attaining God through service.”"},
+ {c:"tr",name:"Turkish",flag:"tr",n:266,rel:34,src:[["Religion / the sacred",34],["Becoming yourself",18],["Family & children",15],["Romantic love",7]],q:"“İnsan olarak yaşamak, büyümek.”"},
+ {c:"ja",name:"Japanese",flag:"日",n:325,rel:11,src:[["Family & children",24],["Becoming yourself",12],["Religion / the sacred",11],["Serving others",9]],q:"“家族と過ごす時間が、生きる意味です。”"},
+];
+
+const rows=document.getElementById('rows'), panel=document.getElementById('panel');
+function render(sel){
+  rows.innerHTML='';
+  CULTURES.forEach(d=>{
+    const b=document.createElement('button');
+    b.className='crow'; b.setAttribute('role','option');
+    b.setAttribute('aria-selected', d.c===sel);
+    b.innerHTML=`<div><div class="name">${d.name}${d.prov?' *':''}</div><div class="sub mono">${d.n} asserts</div></div>
+      <div class="track"><div class="fill" style="width:${d.rel}%"></div></div>
+      <div class="pct">${d.rel}%</div>`;
+    b.onclick=()=>{render(d.c);drawPanel(d)};
+    rows.appendChild(b);
+  });
+}
+function drawPanel(d){
+  panel.innerHTML=`<div class="flag">${d.flag}</div>
+    <h3>${d.name}</h3>
+    <div class="meta mono">${d.n.toLocaleString()} people who named a meaning${d.prov?' · first-cut estimate':''}</div>
+    ${d.src.map(s=>{
+      const rel=/Religion/.test(s[0]);
+      return `<div class="src"><div class="top"><b>${s[0]}</b><span class="v">${s[1]}%</span></div>
+        <div class="sbar ${rel?'rel':'oth'}"><i style="width:${Math.round(s[1]/70*100)}%"></i></div></div>`;
+    }).join('')}
+    <div class="quote">${d.q}</div>`;
+}
+render('ja'); drawPanel(CULTURES.find(d=>d.c==='ja'));
+document.getElementById('korea-note').innerHTML='* Korean rests on a free first-cut (rough); every other figure is hand-validated. Select any culture above to read its full answer.';
+
+/* ---- temporal chart ---- */
+const T=[[2007,.5,2.7,.9],[2008,.4,3.2,.7],[2009,.3,2.8,.7],[2010,.3,2.7,.7],[2011,.4,3.0,.8],
+[2012,.3,2.7,.8],[2013,.3,3.3,1.1],[2014,.6,3.1,.8],[2015,.8,3.3,1.0],[2016,1.1,3.3,1.3],
+[2017,1.1,3.5,1.4],[2018,1.1,3.8,1.6],[2019,.9,3.8,1.8],[2020,1.0,6.7,1.8],[2021,.8,7.1,2.2],
+[2022,2.1,5.8,2.2],[2023,5.0,4.8,2.5],[2024,5.7,5.0,1.9],[2025,10.0,4.4,2.4],[2026,14.4,3.9,2.2]];
+const W=820,H=400,M={t:20,r:92,b:34,l:36};
+const x=y=>M.l+(y-2007)/(2026-2007)*(W-M.l-M.r);
+const yv=v=>M.t+(1-v/16)*(H-M.t-M.b);
+const cvar=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function drawChart(){
+  const svg=document.getElementById('tchart');const NS='http://www.w3.org/2000/svg';
+  svg.innerHTML='';
+  const mk=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+  // gridlines + y labels
+  [0,4,8,12,16].forEach(v=>{
+    svg.appendChild(mk('line',{class:'gridline',x1:M.l,x2:W-M.r,y1:yv(v),y2:yv(v)}));
+    const t=mk('text',{class:'axis',x:M.l-8,y:yv(v)+3,'text-anchor':'end'});t.textContent=v+'%';svg.appendChild(t);
+  });
+  // x labels
+  [2007,2012,2017,2020,2022,2026].forEach(yr=>{
+    const t=mk('text',{class:'axis',x:x(yr),y:H-M.b+16,'text-anchor':'middle'});t.textContent=yr;svg.appendChild(t);
+  });
+  // annotations
+  [[2020,'COVID'],[2022,'ChatGPT']].forEach(([yr,lab])=>{
+    svg.appendChild(mk('line',{class:'anno',x1:x(yr),x2:x(yr),y1:M.t,y2:H-M.b}));
+    const t=mk('text',{class:'anno-t',x:x(yr)+4,y:M.t+11});t.textContent=lab;svg.appendChild(t);
+  });
+  const series=[['ai',1,cvar('--s-ai'),'AI'],['mort',2,cvar('--s-mort'),'Death'],['nih',3,cvar('--s-nih'),'Nihilism']];
+  series.forEach(([k,idx,col,lab])=>{
+    const pts=T.map(r=>`${x(r[0])},${yv(r[idx])}`).join(' ');
+    svg.appendChild(mk('polyline',{points:pts,fill:'none',stroke:col,'stroke-width':2.4,
+      'stroke-linejoin':'round','stroke-linecap':'round'}));
+    const last=T[T.length-1];
+    const dot=mk('circle',{cx:x(last[0]),cy:yv(last[idx]),r:3.6,fill:col});svg.appendChild(dot);
+    const t=mk('text',{class:'dlabel',x:x(last[0])+8,y:yv(last[idx])+4,fill:col});
+    t.textContent=lab+' '+last[idx]+'%';svg.appendChild(t);
+  });
+  // hover
+  const hv=mk('line',{class:'hv-line',x1:0,x2:0,y1:M.t,y2:H-M.b,opacity:0});svg.appendChild(hv);
+  const tip=document.getElementById('tip');
+  svg.addEventListener('mousemove',e=>{
+    const r=svg.getBoundingClientRect();const px=(e.clientX-r.left)/r.width*W;
+    let yr=Math.round(2007+(px-M.l)/(W-M.l-M.r)*(2026-2007));yr=Math.max(2007,Math.min(2026,yr));
+    const row=T.find(d=>d[0]===yr);if(!row)return;
+    hv.setAttribute('x1',x(yr));hv.setAttribute('x2',x(yr));hv.setAttribute('opacity',1);
+    tip.style.opacity=1;
+    tip.innerHTML=`<div class="yr">${yr}</div>
+      <div class="r"><span style="color:var(--s-ai)">AI</span><b>${row[1]}%</b></div>
+      <div class="r"><span style="color:var(--s-mort)">Death</span><b>${row[2]}%</b></div>
+      <div class="r"><span style="color:var(--s-nih)">Nihilism</span><b>${row[3]}%</b></div>`;
+    const lx=x(yr)/W*r.width;
+    tip.style.left=Math.min(r.width-140,lx+14)+'px';tip.style.top='14px';
+  });
+  svg.addEventListener('mouseleave',()=>{hv.setAttribute('opacity',0);tip.style.opacity=0});
+}
+drawChart();
+matchMedia('(prefers-color-scheme:dark)').addEventListener('change',drawChart);
+new MutationObserver(drawChart).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+/* ---- register flip ---- */
+const REG={
+ concepts:[
+  ["Religion / the sacred",[16,2.5,37.3]],
+  ["Family & children",[14,7.5,4.1]],
+  ["Craft & building",[1.4,6.5,5.4]],
+  ["Becoming yourself",[4.0,6.9,4.0]],
+  ["Death & mortality",[4.3,1.4,7.6]],
+  ["Philosophy, explicit",[0.4,2.3,13.6]],
+  ["Freedom",[0.7,1.5,1.4]],
+ ],
+ reg:[["Confessed","YouTube · at the threshold","The heart reaches for family and faith."],
+      ["Reflected","Hacker News · thinking out loud","The maker reaches for craft and growth."],
+      ["Argued","Stack Exchange · in open debate","The debater reaches for philosophy and God."]]
+};
+const RMAX=40;
+const seg=document.getElementById('seg'),rbars=document.getElementById('rbars'),rcap=document.getElementById('rcap');
+REG.reg.forEach((r,i)=>{const b=document.createElement('button');b.setAttribute('role','tab');
+  b.innerHTML=`${r[0]}<span class="sm">${r[1]}</span>`;b.onclick=()=>setReg(i);seg.appendChild(b);});
+REG.concepts.forEach((c,j)=>{const d=document.createElement('div');d.className='rb';d.id='rb'+j;
+  d.innerHTML=`<div class="rl">${c[0]}</div><div class="rt"><i></i></div><div class="rv"></div>`;
+  rbars.appendChild(d);});
+function setReg(i){
+  [...seg.children].forEach((b,k)=>b.setAttribute('aria-pressed',k===i));
+  rcap.textContent=REG.reg[i][2];
+  let top=0;REG.concepts.forEach((c,j)=>{if(c[1][i]>REG.concepts[top][1][i])top=j;});
+  REG.concepts.forEach((c,j)=>{const el=document.getElementById('rb'+j),v=c[1][i];
+    el.querySelector('i').style.width=(v/RMAX*100)+'%';
+    el.querySelector('.rv').textContent=v.toFixed(1)+'%';
+    el.classList.toggle('hot',j===top);});
+}
+setReg(0);
+</script>
