@@ -114,6 +114,14 @@ h2 .num{font-style:normal;color:var(--gold);font-size:.5em;letter-spacing:.1em;
 .tbl .bar{width:46%}
 .tbl .bar span{display:block;height:5px;background:var(--gold);opacity:.85}
 .tbl .fig{color:var(--gold)}
+/* the unresolved middle: hatched rather than solid, because the order in here is not known */
+.tbl tr.mid .bar span{
+  background:repeating-linear-gradient(90deg,var(--gold) 0 2px,transparent 2px 5px);
+  opacity:.75;
+}
+.tbl tr.mid td,.tbl tr.mid .fig{color:var(--ink-2)}
+.tbl .brace{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
+  font-style:italic;letter-spacing:.06em;text-transform:none}
 .tbl tr.low td,.tbl tr.low .fig{color:var(--lapis)}
 .tbl tr.low .bar span{background:var(--lapis)}
 .tbl .nm{white-space:nowrap}
@@ -211,17 +219,18 @@ svg{display:block;width:100%;height:auto}
     each place actually is, which is the only reason to trust it.</p>
 
     <table class="tbl">
-      <caption>Share of stated meanings that are religious, by the language of the speaker</caption>
+      <caption>Share of stated meanings that are religious, by the language of the speaker.
+      Solid where the figure holds still. Hatched where the order is not yet known.</caption>
       <thead><tr><th>Tongue</th><th class="bar"></th><th>Of God</th></tr></thead>
       <tbody>
         <tr><td class="nm">Arabic</td><td class="bar"><span style="width:100%"></span></td><td class="fig">70%</td></tr>
-        <tr><td class="nm">Indonesian</td><td class="bar"><span style="width:76%"></span></td><td class="fig">53%</td></tr>
-        <tr><td class="nm">Spanish</td><td class="bar"><span style="width:70%"></span></td><td class="fig">49%</td></tr>
-        <tr><td class="nm">Korean</td><td class="bar"><span style="width:67%"></span></td><td class="fig">47%</td></tr>
-        <tr><td class="nm">Portuguese</td><td class="bar"><span style="width:64%"></span></td><td class="fig">45%</td></tr>
-        <tr><td class="nm">English</td><td class="bar"><span style="width:63%"></span></td><td class="fig">44%</td></tr>
-        <tr><td class="nm">Hindi</td><td class="bar"><span style="width:59%"></span></td><td class="fig">41%</td></tr>
-        <tr><td class="nm">Turkish</td><td class="bar"><span style="width:49%"></span></td><td class="fig">34%</td></tr>
+        <tr class="mid"><td class="nm">Indonesian</td><td class="bar"><span style="width:76%"></span></td><td class="fig">53%</td></tr>
+        <tr class="mid"><td class="nm">Spanish</td><td class="bar"><span style="width:70%"></span></td><td class="fig">49%</td></tr>
+        <tr class="mid"><td class="nm">Korean</td><td class="bar"><span style="width:67%"></span></td><td class="fig">47%</td></tr>
+        <tr class="mid"><td class="nm">Portuguese</td><td class="bar"><span style="width:64%"></span></td><td class="fig">45%</td></tr>
+        <tr class="mid"><td class="nm">English</td><td class="bar"><span style="width:63%"></span></td><td class="fig">44%</td></tr>
+        <tr class="mid"><td class="nm">Hindi</td><td class="bar"><span style="width:59%"></span></td><td class="fig">41%</td></tr>
+        <tr class="mid"><td class="nm">Turkish</td><td class="bar"><span style="width:49%"></span></td><td class="fig">34%</td></tr>
         <tr class="low"><td class="nm">Japanese</td><td class="bar"><span style="width:16%"></span></td><td class="fig">11%</td></tr>
       </tbody>
     </table>
@@ -240,14 +249,24 @@ svg{display:block;width:100%;height:auto}
     </div>
     <p class="lead">Both of them are looking straight at death. One sees God in it. The other sees a
     child at the kitchen table. Nothing in the method put them that way round.</p>
+    <p class="lead">Trust the two ends of that table and distrust its middle. When the same eight
+    tongues are compared inside a single situation, so that grief is only ever set beside grief,
+    the top and the bottom hold firm. The order in between comes apart. Korean speakers are
+    overwhelmingly religious beside an account of near death and <b>barely religious at a widow's
+    side</b>. It is the same language in the same month of the same year. So a tongue does not
+    really have a number. It has a number that depends on what life has just done to it, and the
+    six tongues in the middle of this table sit inside one another's swing.</p>
   </div>
   <aside class="gloss">
-    <div class="g"><span class="fig">4.7&times;</span>the distance between the most and the least
-    religious tongue in this book.</div>
-    <div class="g">Nine languages here rest on fragments that a careful reader judged one at a time.
-    <b>Ten more are gathered and still being weighed</b>, so this chapter is unfinished on purpose.</div>
+    <div class="g"><span class="fig">7.4&times;</span>Arabic against Japanese in a widow's grief,
+    with the situation held still. <b>2.6&times;</b> beside a near death. The gap at the ends is
+    real either way.</div>
+    <div class="g">Nine languages here rest on fragments a careful reader judged one at a time.
+    <b>Ten more are gathered and being held back</b>, because the quick way of counting them turned
+    out to miss any faith written in the wrong alphabet.</div>
     <div class="g cav">A tongue is not a country, and not a faith. It is only who happened to be
-    typing. Read it as a rumour that keeps turning out to be true.</div>
+    typing. Read the ends of the table as a rumour that keeps turning out to be true, and read the
+    middle as not yet known.</div>
   </aside>
 </section>
 
