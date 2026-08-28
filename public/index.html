@@ -206,6 +206,48 @@ svg{display:block;width:100%;height:auto}
   margin-top:6px;display:block}
 .chorus .count{color:var(--ink-3);font-size:13.5px;font-style:italic;margin-top:8px}
 
+
+/* the last chapter: the reader writes */
+.ask{max-width:33rem;margin:0 auto;text-align:left}
+.ask textarea{
+  width:100%;min-height:104px;resize:vertical;background:transparent;color:var(--ink);
+  border:0;border-bottom:1px solid var(--rule-2);padding:10px 2px;font:inherit;
+  font-size:19px;line-height:1.5;
+  background-image:repeating-linear-gradient(to bottom,transparent 0 30px,var(--rule) 30px 31px);
+  background-position:0 8px;
+}
+.ask textarea:focus{outline:0;border-bottom-color:var(--rubric)}
+.ask textarea::placeholder{color:var(--ink-3);font-style:italic}
+.askrow{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:14px}
+.quill-btn{
+  font-family:inherit;font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;
+  background:none;color:var(--rubric);border:1px solid var(--rubric);
+  padding:10px 22px;cursor:pointer;transition:background .15s,color .15s;
+}
+.quill-btn:hover:not(:disabled){background:var(--rubric);color:var(--page)}
+.quill-btn:disabled{opacity:.4;cursor:default}
+.quill-btn:focus-visible{outline:1px solid var(--gold);outline-offset:3px}
+.askrow .ct{font-size:12.5px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.verdict{max-width:33rem;margin:34px auto 0;text-align:left;display:none}
+.verdict.on{display:block}
+.verdict .said{
+  font-style:italic;font-size:19px;color:var(--ink);padding-left:15px;
+  border-left:2px solid var(--rubric);margin-bottom:22px;
+}
+.verdict h3{font-size:24px;font-style:italic;margin:0 0 6px}
+.verdict h3 em{color:var(--rubric);font-style:italic}
+.verdict .sub{color:var(--ink-2);font-size:15.5px;margin-bottom:20px}
+.vrow{display:grid;grid-template-columns:1fr 54px;gap:10px;align-items:baseline;
+  padding:9px 0;border-top:1px solid var(--rule)}
+.vrow .l{font-size:14.5px;color:var(--ink-2)}
+.vrow .v{text-align:right;color:var(--gold);font-size:14.5px}
+.vrow .t{grid-column:1/-1;height:4px;background:var(--rule);margin-top:3px}
+.vrow .t i{display:block;height:100%;background:var(--gold)}
+.vrow.you .l,.vrow.you .v{color:var(--rubric)}
+.vrow.you .t i{background:var(--rubric)}
+.kept{font-size:13px;color:var(--ink-3);font-style:italic;margin-top:22px;
+  border-top:1px solid var(--rule);padding-top:14px}
+
 .colophon{border-top:1px solid var(--rule);padding:clamp(44px,7vh,80px) 0}
 .colophon .cols{columns:2;column-gap:52px;font-size:15.5px;color:var(--ink-2)}
 @media(max-width:760px){.colophon .cols{columns:1}}
@@ -567,6 +609,54 @@ svg{display:block;width:100%;height:auto}
   </aside>
 </section>
 
+<section class="chapter verso">
+  <div class="body">
+    <span class="rubric">The eighth chapter</span>
+    <h2><span class="num">VIII</span>Of who is holding the pen</h2>
+    <p class="lead versal">Sort every fragment not by where the speaker lives but by what had just
+    happened to them, and a second axis appears, running underneath all the others. On one side are
+    the people to whom life did something: a diagnosis arrived, a husband died, a child did not.
+    On the other are the people who did something to their life: stopped drinking, left the country,
+    walked out of the job, came out of prison. The same question, asked of both, comes back
+    different.</p>
+
+    <div class="pair">
+      <div><span class="n">44%</span><span class="w">Life happened to them, and they say God</span></div>
+      <div class="sec"><span class="n">27%</span><span class="w">They acted, and they say becoming themselves</span></div>
+    </div>
+
+    <p class="lead">Where life is done to a person, God is the answer nearly half the time, and
+    everything else trails far behind. Where a person acts on their own life, God falls to 18%,
+    while becoming yourself more than doubles and freedom appears from almost nowhere to take third
+    place. Neither of these is a small wobble. Both are far beyond what chance would produce.</p>
+
+    <p class="lead"><b>Meaning appears to depend on who is holding the pen.</b> Handed a life you did
+    not choose, people reach outward and upward. Having chosen it, they reach inward. The same
+    person, in a different week, would likely answer differently, which is the least comfortable
+    idea in this book.</p>
+
+    <div class="verse">
+      <span class="src">Arabic, beside a near death</span>
+      <div class="orig" lang="ar">إني لم أرَ مثل الموت دليل على وجود الخالق</div>
+      <div class="interlin">I have never seen a proof of the Creator like death.</div>
+    </div>
+    <div class="verse">
+      <span class="src">English, having walked out of the job</span>
+      <div class="orig" lang="en">I would rather work harder, make less money, than have an employer.</div>
+    </div>
+  </div>
+  <aside class="gloss">
+    <div class="g"><span class="fig">1,964</span>statements from people life acted upon.
+    <b>God 44%</b>, becoming yourself 12%, family 10%, service 9%.</div>
+    <div class="g"><span class="fig">250</span>statements from people who acted.
+    <b>Becoming yourself 27%</b>, God 18%, freedom 15%, family 9%.</div>
+    <div class="g">The two gaps are large enough to be certain of, unlike most of the first
+    chapter. Faith halves, and self-making doubles.</div>
+    <div class="g cav">The acting side is a quarter the size of the other. The direction is not in
+    doubt; the exact figures on that side will move.</div>
+  </aside>
+</section>
+
 <section class="chorus">
   <div class="head">
     <span class="rubric">The chorus</span>
@@ -609,11 +699,19 @@ svg{display:block;width:100%;height:auto}
 
 <section class="unwritten">
   <span class="rubric">The last chapter</span>
-  <h2 style="font-size:clamp(24px,3.6vw,34px)">Which has not been written</h2>
-  <p>Every chapter above was made from people who answered without being asked. There is a page left
-  ruled and empty at the back of this book, and in time you will be able to write on it.</p>
-  <div class="ruled" aria-hidden="true"></div>
-  <span class="quill">Opening soon</span>
+  <h2 style="font-size:clamp(24px,3.6vw,34px)">Which you are writing</h2>
+  <p>Every person in this book answered without being asked. You are being asked, which makes your
+  answer a different kind of thing, and it will be kept separately for exactly that reason. Write it
+  anyway. The page has been ruled and waiting.</p>
+  <div class="ask">
+    <label for="ans" style="position:absolute;left:-9999px">What gives your life meaning</label>
+    <textarea id="ans" maxlength="400" placeholder="What makes your life worth living?"></textarea>
+    <div class="askrow">
+      <span class="ct" id="ct">0 / 400</span>
+      <button class="quill-btn" id="send" type="button" disabled>Write it down</button>
+    </div>
+  </div>
+  <div class="verdict" id="verdict"></div>
 </section>
 
 <p class="end">Made from public text by one person and a machine, and corrected several times by the
@@ -805,4 +903,75 @@ clock();
 matchMedia('(prefers-color-scheme:dark)').addEventListener('change',clock);
 new MutationObserver(clock).observe(document.documentElement,
   {attributes:true,attributeFilter:['data-theme']});
+
+/* ---------- the last chapter: place the reader in the data ---------- */
+var SRC=[
+ ["religion_transcendence","God, or the sacred",/\bgod\b|jesus|christ|allah|\bfaith\b|\bpray|heaven|\bsoul\b|sacred|divine|spiritual|eternal|scripture|bible|quran|buddha|dharma|worship/i],
+ ["family_children","Family and children",/\bfamily\b|\bkids?\b|children|\bson\b|daughter|\bwife\b|husband|parent|mother|father|\bmum\b|\bmom\b|\bdad\b|grandchild|raising/i],
+ ["freedom_autonomy","Freedom",/\bfreedom\b|independen|my own terms|autonom|liberat|do what I want|answer to no one/i],
+ ["craft_work","The work of your hands",/\bmy work\b|\bbuild|\bmaking\b|\bcreate|\bcraft|\bcoding\b|\bwriting\b|\bmusic\b|mastery|\bmy art\b/i],
+ ["service_others","Helping others",/\bhelp|\bserve|\bgiving\b|\bkindness|volunteer|care for|make a difference/i],
+ ["purpose_cause","A cause larger than you",/\bpurpose\b|\bmission\b|\bcause\b|\bcalling\b|change the world|something bigger/i],
+ ["legacy","What you leave behind",/\blegacy\b|\bremembered\b|leave behind|outlive|after I am gone|after I'm gone/i],
+ ["nature","The natural world",/\bnature\b|\bocean|\bmountain|\bforest|\bgarden|outdoors|\banimals\b|\bthe sea\b/i],
+ ["absurd","Nothing built in, so you choose",/no inherent meaning|make my own meaning|make your own meaning|absurd|nothing matters|no point/i],
+ ["relationships","The people you love",/\blove\b|\bfriend|\bpartner\b|connect|relationship|\btogether\b/i],
+ ["pleasure_experience","Being alive to it",/\benjoy|\bjoy\b|\bpleasure|experienc|\btravel|adventure|the moment|\bpresent\b|\bbeauty\b/i],
+ ["growth_self","Becoming yourself",/\bbecom|\bgrow|\blearn|who I really am|\bmyself\b|better person|potential|curios|\bknowledge\b/i]
+];
+var SPLIT={
+ religion_transcendence:[44,18], growth_self:[12,27], family_children:[10,9],
+ service_others:[9,5], freedom_autonomy:[2,15], pleasure_experience:[5,8],
+ craft_work:[3,7], relationships:[4,4], legacy:[3,3], purpose_cause:[3,4],
+ nature:[1,2], absurd:[1,2]
+};
+var TONGUES=[["Arabic",70],["Indonesian",53],["Spanish",49],["Korean",47],["Portuguese",45],
+ ["English",44],["Hindi",41],["Turkish",34],["Japanese",11]];
+var ta=document.getElementById('ans'),btn=document.getElementById('send'),
+    ct=document.getElementById('ct'),vd=document.getElementById('verdict');
+function esc(s){return s.replace(/[&<>"]/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function row(label,val,max,you){
+  return '<div class="vrow'+(you?' you':'')+'"><span class="l">'+label+'</span>'+
+    '<span class="v">'+val+'%</span>'+
+    '<span class="t"><i style="width:'+Math.round(val/max*100)+'%"></i></span></div>';
+}
+function render(t,hit){
+  var html='<div class="said">'+esc(t)+'</div>';
+  if(!hit){
+    html+='<h3>This one does not fit the shelves</h3>'+
+      '<p class="sub">Fifteen categories were drawn from a million other people, and yours sits in '+
+      'none of them. That happens, and it is the more interesting outcome. It has been kept.</p>';
+  }else{
+    var key=hit[0],lab=hit[1],sp=SPLIT[key]||[3,3];
+    html+='<h3>You said <em>'+lab.toLowerCase()+'</em></h3>';
+    html+='<p class="sub">Here is where that puts you.</p>';
+    html+=row('People life acted upon say this',sp[0],44,sp[0]>=sp[1]);
+    html+=row('People who acted on their life say this',sp[1],44,sp[1]>sp[0]);
+    if(key==='religion_transcendence'){
+      html+='<p class="sub" style="margin:20px 0 8px">And it depends enormously on where you are.</p>';
+      for(var i=0;i<TONGUES.length;i++){ html+=row(TONGUES[i][0]+' speakers',TONGUES[i][1],70,false); }
+    }
+  }
+  html+='<p class="kept">Kept apart from the million. You were asked, and they were not, and this '+
+        'book is partly about how much that changes an answer.</p>';
+  vd.innerHTML=html; vd.classList.add('on');
+}
+if(ta){
+  ta.addEventListener('input',function(){
+    ct.textContent=ta.value.length+' / 400';
+    btn.disabled=ta.value.trim().length<8;
+  });
+  btn.addEventListener('click',function(){
+    var t=ta.value.trim(); if(t.length<8){return;}
+    btn.disabled=true; btn.textContent='Written';
+    var hit=null,i;
+    for(i=0;i<SRC.length;i++){ if(SRC[i][2].test(t)){ hit=SRC[i]; break; } }
+    render(t,hit);
+    try{
+      fetch('/api/answer',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({text:t,source:hit?hit[0]:null})}).catch(function(){});
+    }catch(e){}
+  });
+}
 </script>
