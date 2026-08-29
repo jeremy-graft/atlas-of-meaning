@@ -964,7 +964,7 @@ if(ta){
   });
   btn.addEventListener('click',function(){
     var t=ta.value.trim(); if(t.length<8){return;}
-    btn.disabled=true; btn.textContent='Written';
+    btn.disabled=true; btn.textContent='Written'; mark('answered');
     var hit=null,i;
     for(i=0;i<SRC.length;i++){ if(SRC[i][2].test(t)){ hit=SRC[i]; break; } }
     render(t,hit);
@@ -974,4 +974,38 @@ if(ta){
     }catch(e){}
   });
 }
+
+/* ---------- anonymous funnel counting ----------
+   Fires four events and stores nothing that could identify a reader: no cookie,
+   no id, no fingerprint. A returning visitor therefore counts twice, which is
+   what Cloudflare Web Analytics is for. This answers only the question it cannot:
+   how far down the book do people get, and do they write anything. */
+function mark(name){
+  try{
+    if(navigator.sendBeacon){
+      navigator.sendBeacon('/api/event',
+        new Blob([JSON.stringify({name:name})],{type:'application/json'}));
+    }else{
+      fetch('/api/event',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({name:name}),keepalive:true}).catch(function(){});
+    }
+  }catch(e){}
+}
+mark('view');
+(function(){
+  if(!('IntersectionObserver' in window)) return;
+  var seen={};
+  var watch=[['.chorus','reached_chorus'],['.unwritten','reached_last']];
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(!en.isIntersecting) return;
+      var key=en.target.getAttribute('data-mark');
+      if(key && !seen[key]){ seen[key]=1; mark(key); io.unobserve(en.target); }
+    });
+  },{threshold:0.25});
+  watch.forEach(function(w){
+    var el=document.querySelector(w[0]);
+    if(el){ el.setAttribute('data-mark',w[1]); io.observe(el); }
+  });
+})();
 </script>
